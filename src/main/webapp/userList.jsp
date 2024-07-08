@@ -42,12 +42,11 @@
                 <th>邮箱</th>
                 <th>操作</th>
             </tr>
-            <c:forEach items="${userList}" var="u">
+            <c:forEach items="userList" var="u">
                 <tr>
                     <td><input type="checkbox" name="id[]" value="1" />
                             ${u.admin_id}</td>
                     <td>${u.username}</td>
-                    <td>${u.name}</td>
                     <td>${u.avatar}</td>
                     <td>${u.phone}</td>
                     <td>${u.email}</td>
