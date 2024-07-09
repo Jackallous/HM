@@ -14,6 +14,16 @@ public class Departments {
 
     private String departmentDescription;
 
+    private boolean haschild;//判断当前科室是否有下一级 true表示有 false表示没有
+
+    public boolean isHaschild() {
+        return haschild;
+    }
+
+    public void setHaschild(boolean haschild) {
+        this.haschild = haschild;
+    }
+
     public Integer getDepartmentId() {
         return departmentId;
     }

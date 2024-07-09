@@ -25,6 +25,40 @@
     <link rel="stylesheet" href="css/admin.css">
     <script src="js/jquery.js"></script>
     <script src="js/pintuer.js"></script>
+    <script>
+        function getChildList(pid){
+            //发送请求到服务器。根据pid查询返回该科室下面的所有二级科室
+            //使用get提交方式获取服务器中返回JSON格式的数据
+            $.getJSON("${pageContext.request.contextPath}/depart/getChildDepartList?pid="+pid,function(data){
+                var trstr = "<tr id='trchild_"+pid+"'><td colspan='4'><table class=\"table table-hover text-center\">";
+                $.each(data,function(i,item){//i表示位置索引，item表示当前对象
+                    trstr +="<tr><td>"+item.departmentId +"</td><td>" +item.departmentName+"</td><td>"+item.departmentDescription+"</td><td><div class=\"button-group\"> <a class=\"button border-main\" href=\"${pageContext.request.contextPath}/depart/toUpdate?did="+item.departmentId+"\"><span class=\"icon-edit\"></span> 修改</a> <a class=\"button border-red\" href=\"javascript:void(0)\" onclick=\"deleteById("+item.departmentId+")\"><span class=\"icon-trash-o\"></span> 删除</a> </div></td></tr>";
+                })
+                trstr += "</table></td></tr>";
+                //在当前行的下面插入一个tr行
+                //判断一下当前一级科室下面是否已经展示二级菜单，如果展示，移除，如果没有展示，展示
+                //获取二级菜单行的id属性
+                var childid = $("#trchild_"+pid).attr("id");//undefined 表示没有展示二级菜单
+                var geid = "trchild_"+pid;
+                if(childid == geid){//移除二级菜单
+                    $("#trchild_"+pid).remove();
+                }else{
+                    $("#tr_"+pid).after(trstr);
+                }
+            });
+
+        }
+
+        function deleteById(id){
+            //确认提示的操作
+            if(confirm("确认删除吗？")){
+                // alert("删除成功")
+                //把要删除的id发送到服务器删除
+                window.location.href="${pageContext.request.contextPath}/depart/deleteById?id="+id;
+            }
+
+        }
+    </script>
 </head>
 <body>
 <%--${pageInfo}--%>
@@ -33,7 +67,7 @@
         <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
         <div class="padding border-bottom">
             <ul class="search" style="padding-left:10px;">
-                <li> <a class="button border-main icon-plus-square-o" href="add.html"> 添加内容</a> </li>
+                <li> <a class="button border-main icon-plus-square-o" href="addDepart.jsp?pid=0"> 添加内容</a> </li>
             </ul>
         </div>
         <table class="table table-hover text-center">
@@ -45,18 +79,31 @@
             </tr>
             <volist name="list" id="vo">
                 <c:forEach items="${pageInfo.list}" var="depart">
-                    <tr>
+                <c:choose>
+                    <c:when test="${depart.haschild}">
+                    <tr id="tr_${depart.departmentId}" onclick="getChildList(${depart.departmentId})" style="cursor: pointer">
                         <td>${depart.departmentId}</td>
                         <td>${depart.departmentName}</td>
                         <td>${depart.departmentDescription}</td>
-                        <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
+                        <td><div class="button-group"> <a class="button border-main" href="addDepart.jsp?pid=${depart.departmentId}"><span class="icon-edit"></span> 添加</a>  </div></td>
                     </tr>
+                    </c:when>
+                    <c:otherwise>
+                    <tr id="tr_${depart.departmentId}">
+                        <td>${depart.departmentId}</td>
+                        <td>${depart.departmentName}</td>
+                        <td>${depart.departmentDescription}</td>
+                        <td><div class="button-group"> <a class="button border-main" href="addDepart.jsp?pid=${depart.departmentId}"><span class="icon-edit"></span> 添加</a>  <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${depart.departmentId})"> <span class="icon-trash-o"></span> 删除</a></div></td>
+                    </tr>
+                    </c:otherwise>
+                    </c:choose>
                     </c:forEach>
 
 
                 <tr>
                     <td colspan="8">
                         <div class="pagelist">
+                            <span >总记录数:${pageInfo.total}</span>
                             <a href="${pageContext.request.contextPath}/depart/getDepartList?page=${pageInfo.prePage!=0?pageInfo.prePage:1}">上一页</a>
                         <c:forEach items="${pageInfo.navigatepageNums}" var="num">
 <%--                            ${num}--%>

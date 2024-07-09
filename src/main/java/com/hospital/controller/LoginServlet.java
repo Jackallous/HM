@@ -47,7 +47,6 @@ public class LoginServlet extends HttpServlet {
                 //重定向到管理员页面
                 resp.sendRedirect(req.getContextPath()+"/adminIndex.jsp");
 
-
             }else{
                 //重定向到登录页面
                 resp.sendRedirect(req.getContextPath()+"/login.jsp?flag=f");

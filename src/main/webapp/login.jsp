@@ -31,8 +31,7 @@
             <form action="${pageContext.request.contextPath}/user/login" method="post">
                 <div class="panel loginbox">
                     <div class="text-center margin-big padding-big-top"><h1>后台管理中心</h1></div>
-                    <h4 style="color: red;">${param.flag=="f"?"用户名或密码错误":""}</h4>
-                    <h4>${param.flag=="false"?"用户名或密码错误":""}</h4>
+                    <h4 style="color: red;" align="center">${param.flag=="f"?"用户名或密码错误":""}</h4>
                     <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
                         <div class="form-group">
                             <div class="field field-icon-right">
@@ -50,7 +49,7 @@
                             <div class="field">
 <%--                                <input type="text" class="input input-big" name="code" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />--%>
 <%--                                <img src="images/passcode.jpg" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onclick="this.src=this.src+'?'">--%>
-                                    <select name="rid" class="input" style="width:332px; line-height:20px;">
+                                    <select name="rid" class="input-big" style="width:332px; line-height:20px;">
                                         <option value="1">管理员</option>
                                         <option value="2">医生</option>
                                     </select>
