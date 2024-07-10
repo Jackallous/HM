@@ -28,4 +28,7 @@ public interface DepartmentsMapper {
 
     @Select("select count(*) from departments where department_pid=#{departmentId}")
     int getChildCount(Integer departmentId);
+
+    @Select("select * from departments where department_level=#{level}")
+    List<Departments> getDepartListLevel(Integer level)throws  SQLException;
 }

@@ -31,7 +31,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/depart/getDepartList" target="right"><span class="icon-caret-right"></span>科室管理</a></li>
         <li><a href="list.html" target="right"><span class="icon-caret-right"></span>职称管理</a></li>
-        <li><a href="${pageContext.request.contextPath}/doctorList.jsp" target="right"><span class="icon-caret-right"></span>医生管理</a></li>
+        <li><a href="${pageContext.request.contextPath}/doctor/getDoctorList" target="right"><span class="icon-caret-right"></span>医生管理</a></li>
         <li><a href="list.html" target="right"><span class="icon-caret-right"></span>排班管理</a></li>
 
     </ul>

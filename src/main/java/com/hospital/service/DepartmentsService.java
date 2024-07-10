@@ -18,4 +18,6 @@ public interface DepartmentsService {
     boolean updateDepartMent(Departments departments);
 
     boolean deleteByIdDepartMent(String id);
+
+    List<Departments> getDepartListLevel(int level);
 }

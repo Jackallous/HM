@@ -142,4 +142,22 @@ public class DepartmentsServiceImpl implements DepartmentsService {
         }
         return false;
     }
+
+    @Override
+    public List<Departments> getDepartListLevel(int level) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            DepartmentsMapper departmentsMapper=sqlSession.getMapper(DepartmentsMapper.class);
+            List<Departments> departmentsList= departmentsMapper.getDepartListLevel(level);
+            return departmentsList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
 }
+

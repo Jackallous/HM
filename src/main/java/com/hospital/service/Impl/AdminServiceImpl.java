@@ -1,7 +1,6 @@
 package com.hospital.service.Impl;
 
 import com.hospital.mapper.AdminMapper;
-import com.hospital.mapper.DoctorMapper;
 import com.hospital.pojo.Admins;
 import com.hospital.service.AdminService;
 import com.hospital.util.MybatisUtil;

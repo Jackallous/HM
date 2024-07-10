@@ -26,6 +26,36 @@ public class Doctors {
 
     private Integer professionalTitleId;
 
+    private Departments departments;//部门对象
+
+    private ProfessionalTitles professionalTitles;//职称对象
+
+    private Integer state;//表示状态 0正常  1删除
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Departments getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Departments departments) {
+        this.departments = departments;
+    }
+
+    public ProfessionalTitles getProfessionalTitles() {
+        return professionalTitles;
+    }
+
+    public void setProfessionalTitles(ProfessionalTitles professionalTitles) {
+        this.professionalTitles = professionalTitles;
+    }
+
     public Integer getDoctorId() {
         return doctorId;
     }

@@ -7,8 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    String contextPath = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + contextPath + "/";
+%>
 <!DOCTYPE html>
 <html lang="zh-cn">
+<base href="<%=basePath%>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,149 +24,117 @@
     <link rel="stylesheet" href="css/admin.css">
     <script src="js/jquery.js"></script>
     <script src="js/pintuer.js"></script>
+    <script>
+        //提交表单的事件，
+        function submitFormData(){
+            //获取表单对象提交
+            $("#listform").submit();
+        }
+
+        function getPage(page){
+            //设置当前页到查询表单
+            $("#page").val(page);
+            $("#listform").submit();
+        }
+
+        function deleteById(id){
+            if(confirm("确定删除吗？")){
+                window.location.href="${pageContext.request.contextPath}/doctor/deleteById?id="+id;
+            }
+        }
+    </script>
 </head>
 <body>
-<form method="post" action="" id="listform">
+<%--    ${pageInfo}--%>
     <div class="panel admin-panel">
         <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
-        <div class="padding border-bottom">
+        <form method="post" action="${pageContext.request.contextPath}/doctor/getDoctorList" id="listform">
+            <div class="padding border-bottom">
             <ul class="search" style="padding-left:10px;">
-                <li> <a class="button border-main icon-plus-square-o" href="${pageContext.request.contextPath}/addDoctor.jsp"> 添加内容</a> </li>
                 <li>搜索：</li>
                 <if condition="$iscid eq 1">
                     <li>
-                        <select name="cid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
-                            <option value="">请选择科室</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
+<%--                        设置的是用户请求的当前页--%>
+                        <input type="hidden" name="page" id="page" value="1">
+                        <select name="did" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
+                            <option value="-1">请选择科室</option>
+                            <c:forEach items="${dListLevelt}" var="d">
+                                <option value="${d.departmentId}" ${doctorQuery.did == d.departmentId?"selected":""}>${d.departmentName}</option>
+                            </c:forEach>
                         </select>
                     </li>
                 </if>
                 <li>
-                    <input type="text" placeholder="请输入医生姓名" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
-                    <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
+                    <select name="pid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
+                        <option value="-1">请选择职称</option>
+                        <c:forEach items="${ptlist}" var="pt">
+                            <option value="${pt.id}" ${doctorQuery.pid == pt.id?"selected":""}>${pt.titleName}</option>
+                        </c:forEach>
+                    </select>
+                </li>
+                <li>
+                    <input type="text" placeholder="请输入医生姓名" value="${doctorQuery.dname}" name="dname" class="input" style="width:150px; line-height:17px;display:inline-block" />
+                    <input type="text" placeholder="请输入医生工号" value="${doctorQuery.jobnum}" name="jobnum" class="input" style="width:150px; line-height:17px;display:inline-block" />
+                    <a href="javascript:void(0)" class="button border-main icon-search" onclick="submitFormData()"> 搜索</a></li>
+                <li> <a class="button border-main icon-plus-square-o" href="${pageContext.request.contextPath}/addDoctor.jsp"> 添加内容</a> </li>
             </ul>
         </div>
+        </form>
         <table class="table table-hover text-center">
             <tr>
-                <th width="100" style="text-align:left; padding-left:20px;">ID</th>
-                <th width="10%">排序</th>
-                <th>图片</th>
-                <th>名称</th>
-                <th>属性</th>
-                <th>分类名称</th>
-                <th width="10%">更新时间</th>
-                <th width="310">操作</th>
+<%--                <th width="100" style="text-align:left; padding-left:20px;">工号</th>--%>
+<%--                <th width="10%">排序</th>--%>
+<%--                <th>图片</th>--%>
+<%--                <th>名称</th>--%>
+<%--                <th>属性</th>--%>
+<%--                <th>分类名称</th>--%>
+<%--                <th width="10%">更新时间</th>--%>
+<%--                <th width="310">操作</th>--%>
+                    <th width="100" style="text-align:left; padding-left:20px;">编号</th>
+                    <th width="10%">工号</th>
+                    <th>姓名</th>
+                    <th>图片</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>科室</th>
+                    <th>职称</th>
+                    <th width="310">操作</th>
             </tr>
             <volist name="list" id="vo">
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
-                        1</td>
-                    <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
-                    <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-                    <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
-                    <td><font color="#00CC99">首页</font></td>
-                    <td>产品分类</td>
-                    <td>2016-07-01</td>
-                    <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-                </tr>
-                <tr>
-                    <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
-                        全选 </td>
-                    <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a> <a href="javascript:void(0)" style="padding:5px 15px; margin:0 10px;" class="button border-blue icon-edit" onclick="sorts()"> 排序</a> 操作：
-                        <select name="ishome" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeishome(this)">
-                            <option value="">首页</option>
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
-                        <select name="isvouch" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeisvouch(this)">
-                            <option value="">推荐</option>
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
-                        <select name="istop" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeistop(this)">
-                            <option value="">置顶</option>
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
-                        &nbsp;&nbsp;&nbsp;
-
-                        移动到：
-                        <select name="movecid" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecate(this)">
-                            <option value="">请选择分类</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
-                            <option value="">产品分类</option>
-                        </select>
-                        <select name="copynum" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecopy(this)">
-                            <option value="">请选择复制</option>
-                            <option value="5">复制5条</option>
-                            <option value="10">复制10条</option>
-                            <option value="15">复制15条</option>
-                            <option value="20">复制20条</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
-                </tr>
+                <c:forEach items="${pageInfo.list}" var="doctor">
+                    <tr id="tr_${doctor.doctorId}">
+                        <td><input type="checkbox" name="did" values="${doctor.doctorId}">${doctor.doctorId}</td>
+                        <td >${doctor.jobNumber}</td>
+                        <td>${doctor.name}</td>
+                        <td width="10%"><img src="${pageContext.request.contextPath}/${doctor.avatar}" alt="" width="70" height="50" /></td>
+                        <td >${doctor.phone}</td>
+                        <td>${doctor.email}</td>
+                        <td>${doctor.departments.departmentName}</td>
+                        <td>${doctor.professionalTitles.titleName}</td>
+                        <td><div class="button-group">  <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${doctor.doctorId})"> <span class="icon-trash-o"></span> 删除</a></div></td>
+                    </tr>
+                </c:forEach>
+                    <tr>
+                        <td colspan="9">
+                            <div class="pagelist">
+                                <span >总记录数:${pageInfo.total}</span>
+                                <a href="javascript:void(0)" onclick="getPage(${pageInfo.prePage})">上一页</a>
+                                <c:forEach items="${pageInfo.navigatepageNums}" var="num">
+                                    <%--                            ${num}--%>
+                                    <c:choose>
+                                        <c:when test="${num == pageInfo.pageNum}">
+                                            <span class="current">${num}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="javascript:void(0)" onclick="getPage(${num})">${num}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                <a href="javascript:void(0)" onclick="getPage(${pageInfo.nextPage})">下一页</a>
+                                <a href="javascript:void(0)" onclick="getPage(${pageInfo.pages})">尾页</a>
+                            </div>
+                        </td>
+                    </tr>
         </table>
     </div>
 </form>

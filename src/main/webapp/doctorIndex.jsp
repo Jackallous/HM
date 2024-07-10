@@ -27,9 +27,14 @@
 </div>
 <div class="leftnav">
     <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
-    <h2><span class="icon-pencil-square-o"></span>就诊管理</h2>
-    <ul>
+    <h2><span class="icon-pencil-square-o"></span>基本设置</h2>
+    <ul style="display: block">
+        <li><a href="${pageContext.request.contextPath}/doctorInfo.jsp" target="right"><span class="icon-caret-right"></span>个人信息</a></li>
         <li><a href="list.html" target="right"><span class="icon-caret-right"></span>患者列表</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>就诊管理</h2>
+    <ul style="display: block">
+        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>患者管理</a></li>
     </ul>
 </div>
 <script type="text/javascript">
