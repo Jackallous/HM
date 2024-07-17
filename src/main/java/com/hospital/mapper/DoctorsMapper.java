@@ -1,12 +1,11 @@
 package com.hospital.mapper;
 
+import com.hospital.pojo.AppointmentsForDoc;
 import com.hospital.pojo.DoctorQuery;
 import com.hospital.pojo.Doctors;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
+import javax.servlet.annotation.WebServlet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,5 +24,20 @@ public interface DoctorsMapper {
 
     //标记删除
     @Update("update doctors set state=1 where doctor_id=#{id}")
-    void deleteById(String id) throws SQLException;
+    void deleteById(@Param("id")String id) throws SQLException;
+
+    @Update("update doctors set name=#{name},avatar=#{avatar},phone=#{phone},email=#{email},introduction=#{introduction},registration_fee=#{registrationFee},professional_title_id=#{professionalTitleId} where job_number=#{jobNumber}")
+    void updateDoctorByJobNumber(Doctors doctors) throws SQLException;
+
+
+    Doctors getDoctorById(Integer docid) throws SQLException;
+
+    @Update("update doctors set registration_fee=#{docfee},professional_title_id=#{doctitleid} where doctor_id=#{docid}")
+    void updateDoctorTitle(@Param("docid")String docid, @Param("docfee")String docfee, @Param("doctitleid")int doctitleid) throws SQLException;
+
+    @Select("select doctor_id from doctors where department_id=#{did} and state = 0")
+    List<Integer> getDepartDocIdList(Integer did) throws SQLException;
+
+    @Select("select registration_fee from doctors where doctor_id=#{docid}")
+    Integer getFeeById(Integer docid) throws SQLException;
 }

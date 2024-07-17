@@ -20,4 +20,6 @@ public interface DepartmentsService {
     boolean deleteByIdDepartMent(String id);
 
     List<Departments> getDepartListLevel(int level);
+
+    Departments getDepartmentByName(String dname);
 }

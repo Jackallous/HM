@@ -31,4 +31,7 @@ public interface DepartmentsMapper {
 
     @Select("select * from departments where department_level=#{level}")
     List<Departments> getDepartListLevel(Integer level)throws  SQLException;
+
+    @Select("select * from departments where department_name=#{dname}")
+    Departments getDepartByName(@Param("dname")String dname) throws SQLException;
 }

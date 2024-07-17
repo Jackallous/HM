@@ -98,6 +98,7 @@
                     <th>邮箱</th>
                     <th>科室</th>
                     <th>职称</th>
+                    <th>挂号费</th>
                     <th width="310">操作</th>
             </tr>
             <volist name="list" id="vo">
@@ -111,11 +112,12 @@
                         <td>${doctor.email}</td>
                         <td>${doctor.departments.departmentName}</td>
                         <td>${doctor.professionalTitles.titleName}</td>
-                        <td><div class="button-group">  <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${doctor.doctorId})"> <span class="icon-trash-o"></span> 删除</a></div></td>
+                        <td>${doctor.registrationFee}</td>
+                        <td><div class="button-group"> <a class="button border-main" href="${pageContext.request.contextPath}/doctor/getDoctorById?docid=${doctor.doctorId}"><span class="icon-edit"></span> 修改职称</a> <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${doctor.doctorId})"> <span class="icon-trash-o"></span> 删除</a></div></td>
                     </tr>
                 </c:forEach>
                     <tr>
-                        <td colspan="9">
+                        <td colspan="10">
                             <div class="pagelist">
                                 <span >总记录数:${pageInfo.total}</span>
                                 <a href="javascript:void(0)" onclick="getPage(${pageInfo.prePage})">上一页</a>

@@ -23,7 +23,7 @@
     <div class="logo margin-big-left fadein-top">
         <h1><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" />后台管理中心</h1>
     </div>
-    <div class="head-l"><a class="button button-little bg-green" href="" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp;&nbsp; &nbsp;&nbsp;<a class="button button-little bg-red" href="${pageContext.request.contextPath}/user/logout?r=2"><span class="icon-power-off"></span> 退出登录</a> </div>
+    <div class="head-l"><a class="button button-little bg-green" href="${pageContext.request.contextPath}/front/index.jsp" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp;&nbsp; &nbsp;&nbsp;<a class="button button-little bg-red" href="${pageContext.request.contextPath}/user/logout?r=2"><span class="icon-power-off"></span> 退出登录</a> </div>
 </div>
 <div class="leftnav">
     <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
@@ -34,7 +34,7 @@
     </ul>
     <h2><span class="icon-pencil-square-o"></span>就诊管理</h2>
     <ul style="display: block">
-        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>患者管理</a></li>
+        <li><a href="${pageContext.request.contextPath}/doctor/getAppointmentList?docid=${doctors.doctorId}" target="right"><span class="icon-caret-right"></span>出诊管理</a></li>
     </ul>
 </div>
 <script type="text/javascript">
@@ -57,7 +57,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;切换语言：<a href="##">中文</a> &nbsp;&nbsp;<a href="##">英文</a> </li>
 </ul>
 <div class="admin">
-    <iframe scrolling="auto" rameborder="0" src="info.html" name="right" width="100%" height="100%"></iframe>
+    <iframe scrolling="auto" rameborder="0" src="${pageContext.request.contextPath}/doctorInfo.jsp" name="right" width="100%" height="100%"></iframe>
 </div>
 <div style="text-align:center;">
     <p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>

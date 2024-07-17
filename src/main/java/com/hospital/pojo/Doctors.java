@@ -32,6 +32,21 @@ public class Doctors {
 
     private Integer state;//表示状态 0正常  1删除
 
+
+    public Doctors() {
+    }
+
+    public Doctors(String jobNumber, String name, String phone, String email, String registrationFee, String entryDate, Integer professionalTitleId, String introduction) {
+        this.jobNumber = jobNumber;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.registrationFee = registrationFee;
+        this.entryDate = entryDate;
+        this.professionalTitleId = professionalTitleId;
+        this.introduction = introduction;
+    }
+
     public Integer getState() {
         return state;
     }

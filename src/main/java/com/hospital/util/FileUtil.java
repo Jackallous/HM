@@ -55,6 +55,25 @@ public class FileUtil {
         Part part = request.getPart(name);
         String realPath = request.getServletContext().getRealPath("");
         System.out.println("realPath = " + realPath);
+        String filePath = realPath + "/upload";
+        File fileDer = new File(filePath);
+        if (!fileDer.exists()) {
+            //不存在需要创建文件目录
+            fileDer.mkdirs();
+        }
+        //2、文件名
+        String originalFilename = part.getSubmittedFileName();
+        String newFileName = getNewFileName(originalFilename);
+        //上传文件 File
+        part.write(filePath + "/" + newFileName);;
+        return "upload/" + newFileName;
+    }
+
+
+    public static String transferToByDate(HttpServletRequest request,String name) throws IOException, ServletException {
+        Part part = request.getPart(name);
+        String realPath = request.getServletContext().getRealPath("");
+        System.out.println("realPath = " + realPath);
         String datepath = getDatePath();
         String filePath = realPath + "/upload/" + datepath;
         File fileDer = new File(filePath);

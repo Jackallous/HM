@@ -35,4 +35,11 @@
 
     </resultMap>
 
+
+    <select id="getDoctorById" resultMap="getDoctorInfo">
+        select * from doctors d left join departments dt on d.department_id = dt.department_id
+        left join professional_titles pt on d.professional_title_id = pt.id where doctor_id=#{docid} and state = 0
+    </select>
+
+
 </mapper>

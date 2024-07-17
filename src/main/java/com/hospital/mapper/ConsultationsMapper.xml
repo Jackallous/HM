@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置Mapper接口的全限定的名称-->
+<mapper namespace="com.hospital.mapper.ConsultationsMapper">
+
+    <select id="getMyConsultation" resultMap="getMyConsultationInfo">
+        select * from consultation left join doctors on consultation.doctor_id= doctors.doctor_id
+        where patient_id=#{patid} order by consultation_time
+    </select>
+
+    <resultMap id="getMyConsultationInfo" type="com.hospital.pojo.ConsultationsForPat" autoMapping="true">
+
+<!--        <id property="doctorId" column="doctor_id"></id>-->
+
+        <association property="doctor" javaType="com.hospital.pojo.Doctors" autoMapping="true"></association>
+
+<!--        <association property="professionalTitles" javaType="com.hospital.pojo.ProfessionalTitles" autoMapping="true"></association>-->
+
+    </resultMap>
+
+
+
+</mapper>

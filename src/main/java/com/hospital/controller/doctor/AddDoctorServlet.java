@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-//完成科室的添加
+//医生的添加
 @WebServlet("/doctor/addDoctor")
 public class AddDoctorServlet extends HttpServlet {
 

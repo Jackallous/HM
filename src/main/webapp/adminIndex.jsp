@@ -23,16 +23,16 @@
     <div class="logo margin-big-left fadein-top">
         <h1><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" />后台管理中心</h1>
     </div>
-    <div class="head-l"><a class="button button-little bg-green" href="" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp; &nbsp;&nbsp;<a class="button button-little bg-red" href="${pageContext.request.contextPath}/user/logout?r=1"><span class="icon-power-off"></span> 退出登录</a> </div>
+    <div class="head-l"><a class="button button-little bg-green" href="${pageContext.request.contextPath}/front/index.jsp" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp; &nbsp;&nbsp;<a class="button button-little bg-red" href="${pageContext.request.contextPath}/user/logout?r=1"><span class="icon-power-off"></span> 退出登录</a> </div>
 </div>
 <div class="leftnav">
     <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
     <h2><span class="icon-pencil-square-o"></span>医院管理</h2>
     <ul>
         <li><a href="${pageContext.request.contextPath}/depart/getDepartList" target="right"><span class="icon-caret-right"></span>科室管理</a></li>
-        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>职称管理</a></li>
+<%--        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>职称管理</a></li>--%>
         <li><a href="${pageContext.request.contextPath}/doctor/getDoctorList" target="right"><span class="icon-caret-right"></span>医生管理</a></li>
-        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>排班管理</a></li>
+        <li><a href="${pageContext.request.contextPath}/schedule/getScheduleList" target="right"><span class="icon-caret-right"></span>排班管理</a></li>
 
     </ul>
 </div>

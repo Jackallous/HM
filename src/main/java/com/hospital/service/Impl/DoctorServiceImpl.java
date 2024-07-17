@@ -2,7 +2,10 @@ package com.hospital.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hospital.mapper.AppointmentsMapper;
 import com.hospital.mapper.DoctorsMapper;
+import com.hospital.pojo.Appointments;
+import com.hospital.pojo.AppointmentsForDoc;
 import com.hospital.pojo.DoctorQuery;
 import com.hospital.pojo.Doctors;
 import com.hospital.service.DoctorService;
@@ -91,5 +94,113 @@ public class DoctorServiceImpl implements DoctorService {
             MybatisUtil.closeSqlSession();
         }
         return false;
+    }
+
+    @Override
+    public boolean updateDoctorByJobNumber(Doctors doctors) {
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        try {
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            doctorsMapper.updateDoctorByJobNumber(doctors);
+            sqlSession.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return false;
+    }
+
+    @Override
+    public Doctors getDoctorById(String docid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            Doctors doctor = doctorsMapper.getDoctorById(Integer.valueOf(docid));
+            return doctor;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateDoctorTitle(String docid, String docfee, String doctitleid) {
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        try {
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            if(docfee != null && !"".equals(docfee)){
+                doctorsMapper.updateDoctorTitle(docid,docfee,Integer.parseInt(doctitleid));
+            }else{
+                doctorsMapper.updateDoctorTitle(docid,"0",Integer.parseInt(doctitleid));
+            }
+            sqlSession.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return false;
+    }
+
+    @Override
+    public List<Integer> getDepartDocIdList(Integer did) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            List<Integer> departDocIdList = doctorsMapper.getDepartDocIdList(did);
+            return departDocIdList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+    @Override
+    public PageInfo getAppointmentList(String page, String docid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            AppointmentsMapper appointmentsMapper = sqlSession.getMapper(AppointmentsMapper.class);
+            //分页查询，返回pageinfo
+            if(page != null && !"".equals(page)){
+                PageHelper.startPage(Integer.valueOf(page),5);
+            }else{
+                PageHelper.startPage(1,5);//没有当前页，默认返回第一页的数据
+            }
+            //紧跟第一个查询会被自动分页
+            List<AppointmentsForDoc> alist = appointmentsMapper.getAppointmentList(Integer.parseInt(docid));
+            //创建分页对象封装集合数据返回
+            PageInfo pageInfo = new PageInfo(alist);
+            System.out.println("pageinfo"+pageInfo);
+            return pageInfo;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getFeeById(Integer docid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            Integer fee = doctorsMapper.getFeeById(Integer.valueOf(docid));
+            return fee;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
     }
 }

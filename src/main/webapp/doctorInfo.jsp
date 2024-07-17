@@ -24,7 +24,7 @@
 <div class="panel admin-panel">
     <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 个人信息</strong></div>
     <div class="body-content">
-        <form method="post" class="form-x" action="" enctype="multipart/form-data">
+        <form method="post" class="form-x" action="${pageContext.request.contextPath}/doctor/updateDoctor" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="label">
                     <label>工号：</label>
@@ -48,8 +48,10 @@
                     <label>头像：</label>
                 </div>
                 <div class="field">
-                    <input type="text" id="url1" name="file" class="input tips" style="width:25%; float:left;" value="" data-toggle="hover" data-place="right" data-image=""  />
-                    <input type="button" class="button bg-blue margin-left" id="image1" value="+ 浏览上传" >
+                    <input type="file" id="url1" name="myfile" class="input tips" style="width:25%; float:left;"  />
+                    <img src="${pageContext.request.contextPath}/${doctors.avatar}" width="50px">
+                    <input type="hidden" name="avatar" value="${doctors.avatar}">
+<%--                    <input type="button" class="button bg-blue margin-left" id="image1" value="+ 浏览上传" >--%>
                 </div>
             </div>
             <div class="form-group">
@@ -97,7 +99,7 @@
                     <select name="pid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
                         <option value="-1">请选择职称</option>
                         <c:forEach items="${ptlist}" var="pt">
-                            <option value="${pt.id}" ${doctorQuery.pid == pt.id?"selected":""}>${pt.titleName}</option>
+                            <option value="${pt.id}" ${doctors.professionalTitleId == pt.id?"selected":""}>${pt.titleName}</option>
                         </c:forEach>
                     </select>
                     <div class="tips"></div>
@@ -108,7 +110,7 @@
                     <label>入职时间：</label>
                 </div>
                 <div class="field">
-                    <input type="text" class="input" name="entryDate" value="${doctors.entryDate}" />
+                    <input type="date" class="input" name="entryDate" value="${doctors.entryDate}" />
                     <div class="tips"></div>
                 </div>
             </div>

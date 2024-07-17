@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置Mapper接口的全限定的名称-->
+<mapper namespace="com.hospital.mapper.SchedulesMapper">
+
+<!--    =========================================================================================================================-->
+    <select id="getScheduleList" resultMap="getScheduleInfo">
+        select * from doctor_schedule s left join doctors d on s.doctor_id = d.doctor_id
+        left join departments dp on s.department_id = dp.department_id
+        <where>
+            <if test="did != null and did !='' and did != '-1' ">
+                and s.department_id =#{did}
+            </if>
+            <if test="date != null and date !='' ">
+                and s.date =#{date}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="getScheduleInfo" type="com.hospital.pojo.Schedules" autoMapping="true">
+
+        <id property="scheduleId" column="schedule_id"></id>
+
+        <association property="doctor" javaType="com.hospital.pojo.Doctors" autoMapping="true"></association>
+
+        <association property="department" javaType="com.hospital.pojo.Departments" autoMapping="true"></association>
+
+    </resultMap>
+
+<!--========================================================================================================================-->
+    <select id="getScheduleListById" resultType="com.hospital.pojo.HaoByDepart">
+        select department_name,date,sum(visit_count) as sum,shift_time from doctor_schedule left join departments on doctor_schedule.department_id = departments.department_id
+        <where>
+                departments.department_pid =#{pid}
+            <if test="cid != null and cid !='' ">
+                and doctor_schedule.department_id=#{cid}
+            </if>
+            <if test="date != null and date !='' ">
+                and doctor_schedule.date =#{date}
+            </if>
+        </where>
+        group by doctor_schedule.department_id,doctor_schedule.shift_time,doctor_schedule.date
+        order by doctor_schedule.date
+    </select>
+
+
+</mapper>
