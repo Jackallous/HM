@@ -13,6 +13,7 @@ import com.hospital.util.MybatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class DoctorServiceImpl implements DoctorService {
@@ -203,4 +204,23 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return null;
     }
+
+    @Override
+    public List<Doctors> getDocListByCid(String page, String cid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            DoctorsMapper doctorsMapper = sqlSession.getMapper(DoctorsMapper.class);
+            List<Doctors> dlist = doctorsMapper.getDocListByCid(cid);
+            System.out.println("impl  cid:"+dlist+cid);
+            //创建分页对象封装集合数据返回
+            return dlist;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+
 }

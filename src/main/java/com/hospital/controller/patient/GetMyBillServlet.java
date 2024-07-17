@@ -29,7 +29,7 @@ public class GetMyBillServlet extends HttpServlet {
         //把分页对象设置到request作用域中
         req.setAttribute("pageInfo",pageInfo);
 
-        req.getRequestDispatcher("/myBill.jsp").forward(req, resp);
+        req.getRequestDispatcher("/front/myBill.jsp").forward(req, resp);
 
     }
 

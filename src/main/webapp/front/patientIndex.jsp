@@ -43,7 +43,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/front/descrip.jsp" target="right"><span class="icon-caret-right"></span>医院简介</a></li>
         <li><a href="${pageContext.request.contextPath}/front/guahao.jsp" target="right"><span class="icon-caret-right"></span>按科室挂号</a></li>
-        <li><a href="${pageContext.request.contextPath}/front/guahao2.jsp" target="right"><span class="icon-caret-right"></span>按医生挂号</a></li>
+        <li><a href="${pageContext.request.contextPath}/front/guahaoByDoc.jsp" target="right"><span class="icon-caret-right"></span>按医生挂号</a></li>
         <li><a href="${pageContext.request.contextPath}/front/addBalance.jsp" target="right"><span class="icon-caret-right"></span>余额充值</a></li>
         <li><a href="${pageContext.request.contextPath}/patient/getMyAppointment?patid=${patients.patientId}" target="right"><span class="icon-caret-right"></span>我的预约</a></li>
         <li><a href="${pageContext.request.contextPath}/patient/getMyConsultation?patid=${patients.patientId}" target="right"><span class="icon-caret-right"></span>我的就医记录</a></li>

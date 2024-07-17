@@ -191,5 +191,30 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return false;
     }
+
+    @Override
+    public PageInfo getScheduleListByDoc(String page, String pid, String cid, String date, String docname) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            SchedulesMapper schedulesMapper = sqlSession.getMapper(SchedulesMapper.class);
+            //分页查询，返回pageinfo
+            if(page != null && !"".equals(page)){
+                PageHelper.startPage(Integer.valueOf(page),5);
+            }else{
+                PageHelper.startPage(1,5);//没有当前页，默认返回第一页的数据
+            }
+            //紧跟第一个查询会被自动分页
+            List<Schedules> slist = schedulesMapper.getScheduleListByDoc(pid,cid,date,docname);
+            //创建分页对象封装集合数据返回
+            PageInfo pageInfo = new PageInfo(slist);
+            System.out.println("pageinfo"+pageInfo);
+            return pageInfo;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
 }
 

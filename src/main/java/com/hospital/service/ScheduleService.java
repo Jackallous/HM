@@ -22,5 +22,7 @@ public interface ScheduleService {
 
     boolean deductCount(Schedules schedules);
 
+    PageInfo getScheduleListByDoc(String page, String pid, String cid, String date, String docname);
+
 //    boolean addSchedule(String did, String sdate, List<Integer> departDocIdList);
 }

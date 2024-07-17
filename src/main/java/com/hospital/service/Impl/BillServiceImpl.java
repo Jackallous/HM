@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.hospital.mapper.AppointmentsMapper;
 import com.hospital.mapper.BillsMapper;
 import com.hospital.mapper.DoctorsMapper;
+import com.hospital.mapper.PatientsMapper;
 import com.hospital.pojo.Bills;
 import com.hospital.pojo.Doctors;
 import com.hospital.service.BillService;
@@ -50,6 +51,38 @@ public class BillServiceImpl implements BillService {
             String billnum = billsMapper.getBillMax();
             int bnum = Integer.parseInt(billnum);
             billsMapper.createBill(++bnum,Integer.valueOf(patid),docid,billdate,price,0,type);
+            sqlSession.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return false;
+    }
+
+    @Override
+    public Integer getPriceById(String billid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            BillsMapper billsMapper = sqlSession.getMapper(BillsMapper.class);
+            Integer balance = billsMapper.getPriceById(billid);
+            return balance;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean payBill(String billid) {
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        try {
+            BillsMapper billsMapper = sqlSession.getMapper(BillsMapper.class);
+            billsMapper.payBill(billid);
             sqlSession.commit();
             return true;
         } catch (SQLException e) {

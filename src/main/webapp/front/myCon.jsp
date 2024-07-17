@@ -97,7 +97,7 @@
                     <th>医嘱建议</th>
                     <th>住院登记</th>
                     <th>是否住院</th>
-                    <th width="310">操作</th>
+<%--                    <th width="310">操作</th>--%>
             </tr>
             <volist name="list" id="vo">
                 <c:forEach items="${pageInfo.list}" var="con">
@@ -109,13 +109,16 @@
                         <td>${con.isHospitalRegistered==0?"否":"是"}</td>
                         <td>${con.isHospitalized==0?"否":"是"}</td>
                         <td><div class="button-group">
+<%--                        <c:if test="${con.status!='cancelled'}">--%>
 <%--                            <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${app.appointmentId})"> <span class="icon-trash-o"></span> 取消预约</a>--%>
+<%--                        </c:if>--%>
+<%--     <a class="button border-red" href="javascript:void(0)" onclick="deleteById(${app.appointmentId})"> <span class="icon-trash-o"></span> 取消预约</a>&ndash;%&gt;--%>
 
                         </div></td>
                     </tr>
                 </c:forEach>
                     <tr>
-                        <td colspan="9">
+                        <td colspan="6">
                             <div class="pagelist">
                                 <span >总记录数:${pageInfo.total}</span>
                                 <a href="javascript:void(0)" onclick="getPage(${pageInfo.prePage})">上一页</a>

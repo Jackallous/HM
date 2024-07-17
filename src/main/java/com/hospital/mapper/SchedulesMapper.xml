@@ -46,4 +46,33 @@
     </select>
 
 
+    <!--    =========================================================================================================================-->
+    <select id="getScheduleListByDoc" resultMap="getScheduleListByDocInfo">
+        select * from doctor_schedule left join doctors on doctor_schedule.doctor_id = doctors.doctor_id
+        left join departments on doctor_schedule.department_id = departments.department_id
+        <where>
+            <if test="cid != null and cid !='' and cid != '-1' ">
+                and doctor_schedule.department_id =#{cid}
+            </if>
+            <if test="date != null and date !='' ">
+                and doctor_schedule.date =#{date}
+            </if>
+            <if test="docname != null and docname !='' ">
+                and doctors.name like concat("%",#{docname},"%")
+            </if>
+        </where>
+--         group by doctors.name,doctor_schedule.shift_time,doctor_schedule.date
+        order by doctor_schedule.date
+    </select>
+
+    <resultMap id="getScheduleListByDocInfo" type="com.hospital.pojo.Schedules" autoMapping="true">
+
+        <id property="scheduleId" column="schedule_id"></id>
+
+        <association property="doctor" javaType="com.hospital.pojo.Doctors" autoMapping="true"></association>
+
+        <association property="department" javaType="com.hospital.pojo.Departments" autoMapping="true"></association>
+
+    </resultMap>
+
 </mapper>

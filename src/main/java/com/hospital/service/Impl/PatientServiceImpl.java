@@ -97,4 +97,38 @@ public class PatientServiceImpl implements PatientService {
         }
         return null;
     }
+
+    @Override
+    public Integer getBalanceById(String patid) {
+        try {
+            SqlSession sqlSession = MybatisUtil.getSqlSession();
+            PatientsMapper patientsMapper = sqlSession.getMapper(PatientsMapper.class);
+            Integer balance = patientsMapper.getBalanceById(patid);
+            return balance;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setBalance(String patid, int i) {
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        try {
+            PatientsMapper patientsMapper = sqlSession.getMapper(PatientsMapper.class);
+            patientsMapper.setBalance(patid,i);
+            sqlSession.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        } finally {
+            MybatisUtil.closeSqlSession();
+        }
+        return false;
+    }
+
+
 }

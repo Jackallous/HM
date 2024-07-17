@@ -33,4 +33,6 @@ public interface SchedulesMapper {
 
     @Update("update doctor_schedule set visit_count=visit_count-1 where schedule_id=#{sid}")
     void deductCount(int sid) throws SQLException;
+
+    List<Schedules> getScheduleListByDoc(@Param("pid")String pid, @Param("cid")String cid, @Param("date")String date, @Param("docname")String docname) throws SQLException;
 }

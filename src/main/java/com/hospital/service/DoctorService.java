@@ -27,4 +27,7 @@ public interface DoctorService {
     PageInfo getAppointmentList(String page, String docid);
 
     Integer getFeeById(Integer docid);
+
+    List<Doctors>  getDocListByCid(String page, String cid);
+
 }

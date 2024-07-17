@@ -17,4 +17,10 @@ public interface PatientsMapper {
 
     @Select("select * from patients where patient_id=#{patid}")
     Patients getPatientById(@Param("patid")String patid) throws SQLException;
+
+    @Select("select balance from patients where patient_id=#{patid}")
+    Integer getBalanceById(@Param("patid")String patid) throws SQLException;
+
+    @Update("update patients set balance=#{i} where patient_id=#{patid}")
+    void setBalance(@Param("patid")String patid,@Param("i")int i) throws SQLException;
 }

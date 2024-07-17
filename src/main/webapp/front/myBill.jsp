@@ -51,7 +51,7 @@
         <form method="post" action="${pageContext.request.contextPath}/patient/getMyBill" id="listform">
             <div class="padding border-bottom">
             <ul class="search" style="padding-left:10px;">
-                <li>搜索：</li>
+<%--                <li>搜索：</li>--%>
                 <if condition="$iscid eq 1">
                     <li>
 <%--                        设置的是用户请求的当前页--%>
@@ -72,11 +72,11 @@
 <%--&lt;%&ndash;                        </c:forEach>&ndash;%&gt;--%>
 <%--&lt;%&ndash;                    </select>&ndash;%&gt;--%>
 <%--                </li>--%>
-                <li>
-                    <input type="text" placeholder="请输入医生姓名" value="${doctorQuery.dname}" name="dname" class="input" style="width:150px; line-height:17px;display:inline-block" />
-                    <input type="text" placeholder="请输入医生工号" value="${doctorQuery.jobnum}" name="jobnum" class="input" style="width:150px; line-height:17px;display:inline-block" />
-                    <a href="javascript:void(0)" class="button border-main icon-search" onclick="submitFormData()"> 搜索</a></li>
-                <li> <a class="button border-main icon-plus-square-o" href="${pageContext.request.contextPath}/addDoctor.jsp"> 添加内容</a> </li>
+<%--                <li>--%>
+<%--                    <input type="text" placeholder="请输入医生姓名" value="${doctorQuery.dname}" name="dname" class="input" style="width:150px; line-height:17px;display:inline-block" />--%>
+<%--                    <input type="text" placeholder="请输入医生工号" value="${doctorQuery.jobnum}" name="jobnum" class="input" style="width:150px; line-height:17px;display:inline-block" />--%>
+<%--                    <a href="javascript:void(0)" class="button border-main icon-search" onclick="submitFormData()"> 搜索</a></li>--%>
+<%--                <li> <a class="button border-main icon-plus-square-o" href="${pageContext.request.contextPath}/addDoctor.jsp"> 添加内容</a> </li>--%>
             </ul>
         </div>
         </form>
@@ -110,9 +110,13 @@
                         <td>${bill.billDate}</td>
                         <td>${bill.billType}</td>
                         <td>${bill.billPrice}</td>
-                        <td>${bill.state==0?"未支付":"已支付"}</td>
+                        <td>${bill.billState==0?"未支付":"已支付"}</td>
+                        <td><div class="button-group">
+                        <c:if test="${bill.billState==0}">
+                            <a class="button border-main" href="${pageContext.request.contextPath}/patient/payBill?billid=${bill.billId}&patid=${patients.patientId}"><span class="icon-edit"></span> 支付</a>                         </c:if>
 <%--                        在这里应该实现一个效果：只有未支付的账单显示支付按钮，已支付的账单不显示支付按钮--%>
-                        <td><div class="button-group"> <a class="button border-main" href="${pageContext.request.contextPath}/patient/payBill?billid=${bill.billId}"><span class="icon-edit"></span> 支付</a> </div></td>
+<%--                        <td><div class="button-group"> <a class="button border-main" href="${pageContext.request.contextPath}/patient/payBill?billid=${bill.billId}"><span class="icon-edit"></span> 支付</a> --%>
+                        </div></td>
                     </tr>
                 </c:forEach>
                     <tr>

@@ -11,4 +11,8 @@ public interface PatientService {
     boolean addBalance(String patid, String charge);
 
     Patients getPatientById(String patid);
+
+    Integer getBalanceById(String patid);
+
+    boolean setBalance(String patid,int i);
 }

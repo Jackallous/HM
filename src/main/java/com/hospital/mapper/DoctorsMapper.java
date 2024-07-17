@@ -40,4 +40,7 @@ public interface DoctorsMapper {
 
     @Select("select registration_fee from doctors where doctor_id=#{docid}")
     Integer getFeeById(Integer docid) throws SQLException;
+
+    @Select("select * from doctors where department_id=#{cid}")
+    List<Doctors> getDocListByCid(@Param("cid")String cid) throws SQLException;
 }
